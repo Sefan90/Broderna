@@ -9,20 +9,33 @@ public class physicshands : MonoBehaviour
     [SerializeField] float rotdamping = 0.9f;
     [SerializeField] Rigidbody playerRigbody;
     [SerializeField] Transform target;
+    
+    [Space]
+    [Header("Springs")]
+    [SerializeField] float climbForce = 1000f;
+    [SerializeField] float climbDrag = 500f;
+    
+    Vector3 _previousPosition;
     Rigidbody _rigdbody;
+    bool _isColliding;
 
     void Start()
     {
+        transform.position = target.position;
+        transform.rotation = target.rotation;
         _rigdbody = GetComponent<Rigidbody>();
         _rigdbody.maxAngularVelocity = float.PositiveInfinity;
+        _previousPosition = transform.position;
     }
 
     void FixedUpdate()
     {
         PIDMovment();
         PIDRotation();
+        if (_isColliding) HookesLaw();
+        transform.position = target.position;
+        transform.rotation = target.rotation;
     }
-
 
     void PIDMovment()
     {  
@@ -55,5 +68,35 @@ public class physicshands : MonoBehaviour
         axis *= Mathf.Deg2Rad;
         Vector3 torque = ksg * axis * angle + -_rigdbody.angularVelocity * kdg;
         _rigdbody.AddTorque(torque, ForceMode.Acceleration);
+    }
+
+    void HookesLaw()
+    {
+        Vector3 displacementFromResting = transform.position;
+        Vector3 force = displacementFromResting * climbForce;
+        float drag = GetDrag();
+
+        playerRigbody.AddForce(force, ForceMode.Acceleration);
+        playerRigbody.AddForce(drag * -playerRigbody.velocity * climbDrag, ForceMode.Acceleration);
+    }
+
+    float GetDrag()
+    {
+        Vector3 handVelocity = (target.localPosition - _previousPosition) / Time.fixedDeltaTime;
+        float drag = 1 / handVelocity.magnitude + 0.01f;
+        drag = drag > 1 ? 1 : drag;
+        drag = drag < 0.03f ? 0.03f : drag;
+        _previousPosition = transform.position;
+        return drag;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        _isColliding = true;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        _isColliding = false;
     }
 }
