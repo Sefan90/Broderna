@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class physicshands : MonoBehaviour
+public class physicshands2 : MonoBehaviour
 {
     [Header("PID")]
     [SerializeField] float frequency = 50f;

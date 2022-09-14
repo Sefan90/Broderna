@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -408,7 +408,8 @@ GameObject:
   - component: {fileID: 1849483289}
   - component: {fileID: 1849483288}
   - component: {fileID: 1849483293}
-  m_Layer: 0
+  - component: {fileID: 1849483294}
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b823cd6b520bce46b567175d6311012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1849483293}
   speed: 12
   gravity: -9.81
   jumpHieght: 2
@@ -528,3 +528,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1849483294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849483287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cddc47c95fc65b4e8d5a7282d57f01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: -4875016072153647576, guid: 62d1ae8c51865104cbf35b4bdc3c7dd4, type: 3}
+  shootSpeed: 300
+  offset: 3
+  MainCamera: {fileID: 963194227}
